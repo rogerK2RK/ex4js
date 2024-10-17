@@ -25,7 +25,7 @@ btnGeo.addEventListener('click', () => {
 /** EX 2 Cinéma **/
 
 
-const apiKey = 'VOTRE_CLE_API_TMDB';
+const apiKey = '6262ddd0c19b7323ed0f1a971e7d812f';
 
 const searchForm = document.querySelector('#searchForm');
 const searchInput = document.querySelector('#searchInput');
@@ -34,16 +34,31 @@ const baseUrl  = 'https://api.themoviedb.org/3'
 
 searchForm.addEventListener('submit', (event) => {
     event.preventDefault();
+    const query = searchInput.value;
     const url = `${baseUrl}/search/movie?api_key=${apiKey}&query=${encodeURIComponent(query)}`;
 
     fetch(url)
     .then(response => response.json())
     .then(data => {
-        departList.innerHTML = data.map(movie => {
-            console.log(movie);
-        }).join('');
+        // Vérifier si `data.results` est bien un tableau
+        if (Array.isArray(data.results)) {
+            // Utiliser `data.results` qui contient le tableau des films
+            resultsList.innerHTML = data.results.map(movie => {
+                // Création de l'affichage pour chaque film
+                return `
+                    <li>
+                        <h3>${movie.title}</h3>
+                        <p>${movie.overview || 'Description non disponible'}</p>
+                    </li>
+                `;
+            }).join('');
+        } else {
+            // Si `data.results` n'est pas un tableau, afficher un message d'erreur
+            resultsList.innerHTML = `<p>Aucun résultat trouvé.</p>`;
+        }
     })
-    // Ajout d'une gestion d'erreur
-    .catch(error => console.error('Erreur:', error)); 
-   
+    .catch(error => {
+        console.error('Erreur:', error);
+        resultsList.innerHTML = `<p>Erreur lors de la récupération des données.</p>`;
+    });
 });
