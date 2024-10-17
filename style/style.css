@@ -1,0 +1,36 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+button, input {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 1px solid grey;
+
+}
+
+#searchForm {
+    display: flex;
+}
+
+input {
+    border-radius: 5px 0 0 5px;
+}
+
+#subBtn {
+    border-radius: 0 5px 5px 0;
+}
+
+button {
+    background-color: rgb(126, 178, 238);
+    border: 1px solid grey;
+}
+
+#get-geoloca {
+    border-radius: 5px;
+}
+
+#message-geo {
+    margin-top: 20px;
+}
