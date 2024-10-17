@@ -31,6 +31,7 @@ const searchForm = document.querySelector('#searchForm');
 const searchInput = document.querySelector('#searchInput');
 const resultsList = document.querySelector('#resultsList');
 const baseUrl  = 'https://api.themoviedb.org/3'
+const baseUrlImage = 'https://image.tmdb.org/t/p/w500';
 
 searchForm.addEventListener('submit', (event) => {
     event.preventDefault();
@@ -40,20 +41,18 @@ searchForm.addEventListener('submit', (event) => {
     fetch(url)
     .then(response => response.json())
     .then(data => {
-        // Vérifier si `data.results` est bien un tableau
         if (Array.isArray(data.results)) {
-            // Utiliser `data.results` qui contient le tableau des films
             resultsList.innerHTML = data.results.map(movie => {
-                // Création de l'affichage pour chaque film
+                const posterUrl = movie.poster_path ? `${baseUrlImage}${movie.poster_path}` : 'default-image.jpg'; // Image par défaut si non disponible
                 return `
                     <li>
+                        <img src="${posterUrl}" alt="Affiche de ${movie.title}">
                         <h3>${movie.title}</h3>
                         <p>${movie.overview || 'Description non disponible'}</p>
                     </li>
                 `;
             }).join('');
         } else {
-            // Si `data.results` n'est pas un tableau, afficher un message d'erreur
             resultsList.innerHTML = `<p>Aucun résultat trouvé.</p>`;
         }
     })
